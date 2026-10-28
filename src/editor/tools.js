@@ -202,6 +202,11 @@ export function translateAnnotation(annotation, dx, dy) {
   return annotation;
 }
 
+export function dragStartsMove(tool, selectedIndex, hitIndex) {
+  if (hitIndex < 0) return false;
+  return tool == null || hitIndex === selectedIndex;
+}
+
 export function hitAnnotation(context, annotations, point) {
   for (let index = annotations.length - 1; index >= 0; index -= 1) {
     if (annotationContains(context, annotations[index], point)) return index;

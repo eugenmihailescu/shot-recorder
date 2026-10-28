@@ -4,7 +4,8 @@ import { formatShotName, imageExtension } from "../lib/filename.js";
 import { fitToWidth, normalizeRect, resizeWithAspect } from "../lib/geometry.js";
 import { getSettings, saveSettings } from "../lib/settings.js";
 import { iconElement } from "./icons.js";
-import { FONTS, annotationBounds, blurRegion, clampStepStart, drawAnnotations, hitAnnotation, nextStepNumber, paintSteps, renumberSteps, strokeOpacity, translateAnnotation } from "./tools.js";
+import { commandLabel, editorCommand } from "./keys.js";
+import { FONTS, annotationBounds, blurRegion, clampStepStart, dragStartsMove, drawAnnotations, hitAnnotation, nextStepNumber, paintSteps, renumberSteps, strokeOpacity, translateAnnotation } from "./tools.js";
 
 const params = new URLSearchParams(location.search);
 const stage = document.querySelector("#stage");
@@ -18,6 +19,12 @@ const textEditor = document.querySelector("#text-editor");
 const textArea = textEditor.querySelector("textarea");
 const textSubmit = textEditor.querySelector("button");
 const missing = document.querySelector("#missing");
+const apple = navigator.userAgentData?.platform === "macOS" || /\bMac/.test(navigator.platform);
+
+function buttonLabel(id, label) {
+  const shortcut = commandLabel(id, apple);
+  return shortcut ? `${label} (${shortcut})` : label;
+}
 
 const ACTIONS = [
   ["download", "Download"],
@@ -85,7 +92,7 @@ const TOOL_NAMES = [
 ];
 
 for (const [id, label] of ACTIONS) {
-  labelButton(document.querySelector(`#${id}`), id, label);
+  labelButton(document.querySelector(`#${id}`), id, buttonLabel(id, label));
 }
 
 let record = null;
@@ -136,11 +143,15 @@ for (const [id, action] of [["download", download], ["copy", copyImage], ["print
 window.addEventListener("resize", draw);
 window.addEventListener("keydown", (event) => {
   if (event.target.closest("input, textarea, select")) return;
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
+  const command = editorCommand(event);
+  if (command === "undo" || command === "redo") {
     event.preventDefault();
-    if (event.shiftKey) redo();
+    if (command === "redo") redo();
     else undo();
-  } else if (event.key === "Delete" && !event.ctrlKey && !event.metaKey && !event.altKey && selectedShape()) {
+  } else if (command === "erase" && bitmap) {
+    event.preventDefault();
+    selectTool("erase");
+  } else if (command === "delete" && selectedShape()) {
     event.preventDefault();
     eraseAnnotation(selected);
     eraseHover = -1;
@@ -151,6 +162,7 @@ window.addEventListener("keydown", (event) => {
       const entry = history.pop();
       if (entry) annotations = entry.annotations;
       moving = null;
+      overlay.style.cursor = toolCursor();
     }
     draft = null;
     cropRect = null;
@@ -191,7 +203,7 @@ function buildTools() {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.tool = id;
-    labelButton(button, id, label);
+    labelButton(button, id, buttonLabel(id, label));
     button.setAttribute("aria-pressed", id === currentTool ? "true" : "false");
     button.addEventListener("click", () => selectTool(id));
     tools.append(button);
@@ -215,9 +227,16 @@ function selectTool(id) {
   draw();
 }
 
+function toolCursor() {
+  if (currentTool === "move") return "move";
+  if (currentTool === "erase") return "pointer";
+  if (currentTool) return "crosshair";
+  return "default";
+}
+
 function markTool(id) {
   currentTool = id;
-  overlay.style.cursor = id === "move" ? "move" : id === "erase" ? "pointer" : id ? "crosshair" : "default";
+  overlay.style.cursor = toolCursor();
   for (const item of tools.querySelectorAll("button")) {
     item.setAttribute("aria-pressed", item.dataset.tool === id ? "true" : "false");
   }
@@ -755,6 +774,40 @@ function onPointerDown(event) {
   beginShape(event, point);
 }
 
+function beginMove(event, index, origin, point) {
+  pendingSelect = null;
+  remember();
+  const dx = point.x - origin.x;
+  const dy = point.y - origin.y;
+  annotations = annotations.map((item, itemIndex) => (
+    itemIndex === index ? translateAnnotation(item, dx, dy) : item
+  ));
+  moving = { index, last: point, distance: Math.hypot(dx, dy), select: selected !== index };
+  capturePointer(event);
+  overlay.style.cursor = "move";
+  placeTextEditor();
+  draw();
+}
+
+function updateHoverCursor(event) {
+  if (!event || draft || moving || !bitmap || !canPickShape()) return;
+  const index = shapeAt(imagePoint(event));
+  if (dragStartsMove(currentTool, selected, index)) overlay.style.cursor = "move";
+  else if (index >= 0) overlay.style.cursor = "pointer";
+  else overlay.style.cursor = toolCursor();
+}
+
+function placeTextEditor() {
+  const annotation = selectedText();
+  if (!annotation || textEditor.hidden) return;
+  const bounds = overlay.getBoundingClientRect();
+  const scale = bounds.width / bitmap.width;
+  textEditor.style.left = `${bounds.left + annotation.x * scale}px`;
+  textEditor.style.top = `${bounds.top + annotation.y * scale}px`;
+  textEditor.dataset.x = String(annotation.x);
+  textEditor.dataset.y = String(annotation.y);
+}
+
 function beginShape(event, point) {
   pendingSelect = null;
   pendingStep = null;
@@ -806,10 +859,12 @@ function onPointerMove(event) {
     const point = imagePoint(event);
     if (pointerDistance(point, pendingSelect) < SELECT_CLICK_PX) return;
     const origin = { x: pendingSelect.x, y: pendingSelect.y };
-    if (canDraw()) {
+    const index = pendingSelect.index;
+    if (dragStartsMove(currentTool, selected, index)) beginMove(event, index, origin, point);
+    else if (canDraw()) {
       beginShape(event, origin);
       updateDraft(point);
-    } else if (annotations[pendingSelect.index]?.type !== "text" && annotations[pendingSelect.index]?.type !== "step") {
+    } else if (annotations[index]?.type !== "text" && annotations[index]?.type !== "step") {
       pendingSelect = null;
     }
     return;
@@ -835,13 +890,12 @@ function onPointerMove(event) {
     annotations = annotations.map((item, index) => (
       index === moving.index ? translateAnnotation(item, dx, dy) : item
     ));
+    placeTextEditor();
     draw();
     return;
   }
   if (!draft && canPickShape()) {
-    const over = shapeAt(imagePoint(event)) >= 0;
-    const placing = currentTool === "step" || currentTool === "text" || canDraw();
-    overlay.style.cursor = over ? "pointer" : (placing ? "crosshair" : "default");
+    updateHoverCursor(event);
     return;
   }
   if (!draft) return;
@@ -883,12 +937,21 @@ async function onPointerUp(event) {
     return;
   }
   if (moving) {
-    if (moving.distance < 1) {
+    const moved = moving;
+    if (moved.distance < 1) {
       const entry = history.pop();
       if (entry) annotations = entry.annotations;
     }
     moving = null;
+    if (moved.select && annotations[moved.index]) {
+      selected = moved.index;
+      textTarget = null;
+      textEditor.hidden = true;
+      renderOptions();
+    } else placeTextEditor();
     draw();
+    overlay.style.cursor = toolCursor();
+    if (event) updateHoverCursor(event);
     return;
   }
   if (!draft) return;

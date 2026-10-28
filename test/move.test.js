@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { annotationContains, hitAnnotation, translateAnnotation } from "../src/editor/tools.js";
+import { annotationContains, dragStartsMove, hitAnnotation, translateAnnotation } from "../src/editor/tools.js";
 
 const rect = { type: "rect", x: 10, y: 20, w: 40, h: 30, width: 4 };
 const pen = { type: "pen", width: 4, points: [{ x: 0, y: 0 }, { x: 50, y: 0 }, { x: 50, y: 40 }] };
@@ -17,6 +17,15 @@ test("hits the topmost drawing under the pointer", () => {
   assert.equal(annotationContains(null, { type: "ellipse", x: 0, y: 0, w: 100, h: 40, width: 4 }, { x: 0, y: 0 }), false);
   const stacked = [rect, { ...rect, x: 30 }];
   assert.equal(hitAnnotation(null, stacked, { x: 45, y: 30 }), 1);
+});
+
+test("a drag moves a shape when no tool is active or that shape is selected", () => {
+  assert.equal(dragStartsMove(null, -1, 0), true);
+  assert.equal(dragStartsMove(null, 1, 0), true);
+  assert.equal(dragStartsMove("rect", 1, 1), true);
+  assert.equal(dragStartsMove("pen", 0, 2), false);
+  assert.equal(dragStartsMove("text", -1, 0), false);
+  assert.equal(dragStartsMove(null, -1, -1), false);
 });
 
 test("moves every point of a drawing by the same amount", () => {
