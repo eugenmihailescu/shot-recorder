@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Shot Recorder</title>
+    <link rel="stylesheet" href="../ui.css">
+    <link rel="stylesheet" href="editor.css">
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <strong>Shot Recorder</strong>
+        <div class="actions">
+          <button type="button" id="download" class="primary"></button>
+          <button type="button" id="copy"></button>
+          <button type="button" id="print"></button>
+          <span class="split" aria-hidden="true"></span>
+          <button type="button" id="undo"></button>
+          <button type="button" id="redo"></button>
+        </div>
+      </header>
+      <div id="workspace">
+        <aside>
+          <div id="tools" role="toolbar" aria-label="Edit tools"></div>
+          <form id="tool-options"></form>
+        </aside>
+        <main id="stage">
+          <p id="missing" hidden>This capture is no longer available.</p>
+          <div id="wrap" hidden>
+            <canvas id="base"></canvas>
+            <canvas id="overlay"></canvas>
+          </div>
+        </main>
+      </div>
+      <footer id="status"></footer>
+      <form id="text-editor" hidden>
+        <textarea rows="3" aria-label="Text"></textarea>
+        <button type="submit">Place text</button>
+      </form>
+    </div>
+    <img id="print-image" alt="">
+    <script type="module" src="editor.js"></script>
+  </body>
+</html>

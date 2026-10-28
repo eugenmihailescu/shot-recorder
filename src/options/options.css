@@ -1,0 +1,86 @@
+body {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.lead {
+  margin: 0 0 20px;
+}
+
+fieldset {
+  margin: 0 0 16px;
+  padding: 16px 16px 8px;
+  border: 1px solid #d5dbe3;
+  border-radius: 12px;
+  background: #fff;
+}
+
+legend {
+  padding: 0 6px;
+  font-weight: 650;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 14px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 12px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #c5cad3;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.hint,
+#status {
+  color: #5c6773;
+  font-size: 13px;
+}
+
+#status {
+  min-height: 1.2em;
+  color: #1f6feb;
+}
+
+code {
+  font-family: ui-monospace, monospace;
+}
+
+section {
+  margin-top: 8px;
+}
+
+ul {
+  margin: 0 0 12px;
+  padding-left: 18px;
+}

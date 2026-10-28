@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Shot Recorder</title>
+    <link rel="stylesheet" href="../ui.css">
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header>
+      <strong>Shot Recorder</strong>
+    </header>
+    <div role="tablist" aria-label="Shot Recorder">
+      <button type="button" role="tab" id="tab-shot" aria-controls="panel-shot" aria-selected="true">Screenshot</button>
+      <button type="button" role="tab" id="tab-record" aria-controls="panel-record" aria-selected="false" tabindex="-1">Recording</button>
+    </div>
+    <div class="panels">
+      <div role="tabpanel" id="panel-shot" aria-labelledby="tab-shot">
+        <button type="button" data-action="capture-visible">Visible part</button>
+        <button type="button" data-action="capture-delay">Visible part after delay <span id="delay"></span></button>
+        <button type="button" data-action="capture-full">Full page</button>
+        <button type="button" data-action="capture-region">Selected area</button>
+        <button type="button" data-action="capture-desktop">Entire screen and app window</button>
+      </div>
+      <div role="tabpanel" id="panel-record" aria-labelledby="tab-record" hidden inert>
+        <form id="record-options">
+          <label class="field">Format
+            <select name="videoFormat">
+              <option value="webm">WebM</option>
+              <option value="mp4">MP4</option>
+            </select>
+          </label>
+          <p id="mp4-note" hidden>MP4 is not available in this browser.</p>
+          <label class="field">Size
+            <select name="maxResolution" title="The recording is scaled down to fit. It is never scaled up.">
+              <option value="720">720p (1280×720)</option>
+              <option value="1080">1080p (1920×1080)</option>
+              <option value="2160">4K (3840×2160)</option>
+            </select>
+          </label>
+          <label class="check"><input name="microphone" type="checkbox"> Include the microphone</label>
+          <label class="check" title="Used for This tab. Desktop audio is chosen in the share dialog."><input name="tabSound" type="checkbox"> Include this tab's sound</label>
+        </form>
+        <p id="record-meta"></p>
+        <button type="button" data-action="record-tab">This tab</button>
+        <button type="button" data-action="record-desktop">Desktop</button>
+      </div>
+    </div>
+    <p id="error" role="alert" hidden></p>
+    <footer>
+      <button type="button" id="options">Options</button>
+    </footer>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

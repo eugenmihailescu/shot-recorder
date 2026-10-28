@@ -1,0 +1,117 @@
+body {
+  width: 300px;
+  padding: 12px;
+}
+
+header {
+  margin-bottom: 8px;
+}
+
+[role="tablist"] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+[role="tab"] {
+  margin: 0;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+[role="tab"][aria-selected="true"] {
+  background: #e7f0ff;
+  border-color: #1f6feb;
+  color: #1f6feb;
+}
+
+.panels {
+  display: grid;
+}
+
+.panels > [role="tabpanel"] {
+  grid-area: 1 / 1;
+}
+
+/* Both panels stay in the grid so the popup is as tall as the taller one. */
+.panels > [role="tabpanel"][hidden] {
+  display: block !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+button[data-action] {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+#record-options {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 8px;
+  padding: 8px;
+  border: 1px solid #d5dbe3;
+  border-radius: 8px;
+  background: #fff;
+}
+
+#record-options .field {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}
+
+#record-options select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid #c5cad3;
+  border-radius: 8px;
+  background: #fff;
+}
+
+#record-options .check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+}
+
+#record-options input[type="checkbox"] {
+  margin: 0;
+}
+
+#mp4-note,
+#record-meta,
+#error {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #5c6773;
+}
+
+#mp4-note {
+  margin: 0;
+}
+
+#error {
+  color: #a12622;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+#options {
+  border: 0;
+  background: transparent;
+  color: #1f6feb;
+  padding: 4px;
+}

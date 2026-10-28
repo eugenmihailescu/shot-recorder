@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Shot Recorder options</title>
+    <link rel="stylesheet" href="../ui.css">
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <h1>Shot Recorder</h1>
+    <p class="lead">Screenshots and recordings stay on this computer. The extension runs only when you click it.</p>
+    <form id="options">
+      <fieldset>
+        <legend>Screenshots</legend>
+        <label class="field">Visible part delay
+          <input name="visibleDelaySec" type="number" min="0" max="10" step="1" required>
+          <span class="hint">Seconds. 0 captures immediately. The page shows a centered countdown and removes it before the shot. A badge counts down when the page cannot run a script.</span>
+        </label>
+        <label class="field">Desktop capture delay
+          <input name="desktopDelaySec" type="number" min="0" max="10" step="1" required>
+          <span class="hint">Seconds after you share a screen or window. 0 captures immediately. A longer delay gives you time to arrange windows.</span>
+        </label>
+        <label class="field">Save screenshots as
+          <select name="imageType">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+          </select>
+        </label>
+        <label class="field">JPEG quality
+          <input name="jpegQuality" type="range" min="50" max="100" step="1">
+          <span class="hint"><span id="quality-value">92</span>. Used when the format is JPEG. Copy always uses PNG.</span>
+        </label>
+        <label class="field">Download folder
+          <input name="downloadDirectory" type="text" maxlength="80" autocomplete="off" spellcheck="false">
+          <span class="hint">A folder inside Downloads. Letters, numbers, slash, underscore, and hyphen.</span>
+        </label>
+        <div class="pair">
+          <label class="field">Date order
+            <select name="dateOrder">
+              <option value="ymd">Year, month, day</option>
+              <option value="dmy">Day, month, year</option>
+              <option value="mdy">Month, day, year</option>
+            </select>
+          </label>
+          <label class="field">Clock
+            <select name="hourClock">
+              <option value="24">24-hour</option>
+              <option value="12">12-hour</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint">Example file name: <span id="example"></span></p>
+        <label class="check"><input name="openEditor" type="checkbox"> Open the editor after a capture</label>
+        <label class="check"><input name="alsoDownload" type="checkbox"> Also download a copy</label>
+      </fieldset>
+      <fieldset>
+        <legend>Recording</legend>
+        <label class="field">Countdown
+          <input name="countdownSec" type="number" min="0" max="10" step="1" required>
+          <span class="hint">Seconds. 0 starts immediately. The page shows a centered countdown and removes it before recording starts. A badge counts down when the page cannot run a script.</span>
+        </label>
+        <label class="field">Format
+          <select name="videoFormat">
+            <option value="webm">WebM</option>
+            <option value="mp4">MP4</option>
+          </select>
+          <span id="mp4-note" class="hint" hidden>MP4 is not available in this browser. Recordings use WebM.</span>
+        </label>
+        <label class="field">Maximum size
+          <select name="maxResolution">
+            <option value="720">720p (1280×720)</option>
+            <option value="1080">1080p (1920×1080)</option>
+            <option value="2160">4K (3840×2160)</option>
+          </select>
+          <span class="hint">The recording is scaled down to fit. It is never scaled up.</span>
+        </label>
+        <label class="check"><input name="microphone" type="checkbox"> Include the microphone</label>
+        <label class="check"><input name="tabSound" type="checkbox"> Include this tab's sound</label>
+      </fieldset>
+    </form>
+    <section>
+      <h2>Shortcuts</h2>
+      <p class="hint">Change these at <code>brave://extensions/shortcuts</code>.</p>
+      <ul>
+        <li>Visible part: Alt+Shift+V</li>
+        <li>Full page: Alt+Shift+F</li>
+        <li>Selected area: Alt+Shift+A</li>
+        <li>Record this tab: Alt+Shift+R</li>
+      </ul>
+      <p class="hint">Visible part after a delay, entire screen, and record desktop have no default key.</p>
+      <button type="button" id="open-shortcuts">Open shortcut settings</button>
+      <p id="shortcut-fallback" class="hint" hidden>Open brave://extensions/shortcuts from the address bar.</p>
+    </section>
+    <p id="status" role="status"></p>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

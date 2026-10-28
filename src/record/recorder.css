@@ -1,0 +1,26 @@
+main {
+  padding: 18px;
+  min-width: 320px;
+}
+
+h1, p {
+  margin: 0 0 8px;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+#status, #size, #warning {
+  color: #5c6773;
+}
+
+#warning {
+  color: #a12622;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}

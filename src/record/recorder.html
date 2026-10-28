@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Record</title>
+    <link rel="stylesheet" href="../ui.css">
+    <link rel="stylesheet" href="recorder.css">
+    <script>
+      if (new URLSearchParams(location.search).get("mode") === "desktop") {
+        document.documentElement.dataset.pending = "1";
+        document.title = "Choose what to share with Shot Recorder";
+      }
+    </script>
+    <style>
+      html[data-pending="1"] main { visibility: hidden; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 id="title">Record</h1>
+      <p id="status">Preparing…</p>
+      <p id="size"></p>
+      <p id="warning" hidden>This recording is over 1 GB. Stop to save it.</p>
+      <div class="row">
+        <button type="button" id="start" class="primary" hidden>Start</button>
+        <button type="button" id="pause" hidden>Pause</button>
+        <button type="button" id="resume" hidden>Resume</button>
+        <button type="button" id="stop" hidden>Stop</button>
+      </div>
+    </main>
+    <script type="module" src="recorder.js"></script>
+  </body>
+</html>

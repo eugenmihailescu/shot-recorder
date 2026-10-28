@@ -1,0 +1,8 @@
+{
+  "name": "shot-recorder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
