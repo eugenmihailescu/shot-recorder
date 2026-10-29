@@ -2,11 +2,7 @@
 
 Paste these fields into the [developer dashboard](https://chrome.google.com/webstore/devconsole). The zip to upload is `dist/shot-recorder-0.1.0.zip`. This file is not part of that zip.
 
-The privacy policy page is `store/privacy.html`. It is not on the public web until you publish it. For this repository, turn on GitHub Pages for the `main` branch and the `/` (root) folder. The listing URL is then:
-
-https://eugenmihailescu.github.io/shot-recorder/store/privacy.html
-
-Open that URL once before you submit. The dashboard rejects a policy link that does not load.
+The privacy policy page is https://github.com/eugenmihailescu/shot-recorder/blob/main/store/privacy.html. Open that URL once before you submit. The dashboard rejects a policy link that does not load.
 
 You still take at least one screenshot of the real popup or editor, at 1280×800 or 640×400, and you still click Submit for review.
 
@@ -100,9 +96,7 @@ Check the three certification boxes. Their labels are:
 
 ### Privacy policy URL
 
-https://eugenmihailescu.github.io/shot-recorder/store/privacy.html
-
-Use this only after GitHub Pages is serving store/privacy.html. Any other stable HTTPS page with the same text is fine. Paste that URL instead if you host it somewhere else.
+https://github.com/eugenmihailescu/shot-recorder/blob/main/store/privacy.html
 
 ## Distribution
 
