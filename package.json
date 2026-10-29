@@ -1,6 +1,21 @@
 {
   "name": "shot-recorder",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Screenshot and screen recording for desktop Chrome and Brave. It runs only when you click it.",
+  "author": {
+    "name": "Eugen Mihailescu",
+    "email": "eugen.mihailescu@protonmail.com",
+    "url": "https://www.linkedin.com/in/eugenmihailescu"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugenmihailescu/shot-recorder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eugenmihailescu/shot-recorder/issues"
+  },
+  "private": false,
   "type": "module",
   "scripts": {
     "test": "node --test"

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Shot Recorder privacy policy</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0 auto;
+        max-width: 42rem;
+        padding: 2.5rem 1.25rem 4rem;
+        font: 1.05rem/1.55 system-ui, sans-serif;
+      }
+      h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.25rem; }
+      h2 { font-size: 1.15rem; margin-top: 2rem; }
+      .meta { color: CanvasText; opacity: 0.75; }
+      a { color: LinkText; }
+    </style>
+  </head>
+  <body>
+    <h1>Shot Recorder privacy policy</h1>
+    <p class="meta">Last updated 29 October 2026</p>
+    <p>Shot Recorder is a browser extension for desktop Chrome and Brave. It takes a screenshot or a screen recording when you click its toolbar button or use a keyboard shortcut. This policy says what happens to that material.</p>
+    <p>The publisher is Eugen Mihailescu. Email <a href="mailto:eugen.mihailescu@protonmail.com">eugen.mihailescu@protonmail.com</a>.</p>
+
+    <h2>What the extension handles</h2>
+    <p>When you start a capture, the extension handles the image or recording you asked for:</p>
+    <ul>
+      <li>The visible area of the current tab.</li>
+      <li>A full page, made by scrolling that tab and joining the slices.</li>
+      <li>A region you drag on the page.</li>
+      <li>A screen or an application window you pick in the browser share dialog.</li>
+      <li>A recording of the current tab, or of a screen you share.</li>
+      <li>Microphone audio, only when you turn on “Include the microphone” for that recording.</li>
+      <li>Sound from the tab, only when “Include this tab’s sound” is on for a tab recording.</li>
+    </ul>
+    <p>That material is the content of the page, and for a desktop capture it is whatever was on the screen you shared. The extension uses it to show, edit, copy, or save that capture. It does not read it to identify you or to build a profile.</p>
+    <p>While a capture is in progress, the extension reads the address of the current tab to decide whether that page can run a script and to notice if you leave the page before the shot finishes. The address stays in memory for that capture. It is not saved with the still, it is not added to a browsing history, and it is not sent off the computer.</p>
+    <p>A selected area uses the drag on the page only to crop that shot.</p>
+
+    <h2>Where it is stored</h2>
+    <p>Stills are saved in an IndexedDB database named <code>shot-recorder</code> in this browser profile, so the editor can open them. The next time the extension starts, it deletes stills that are more than two days old.</p>
+    <p>Recordings are written as a file in your downloads folder, under the folder name in Options. That name is <code>ShotRecorder</code> unless you change it. Recordings are not kept in the extension database.</p>
+    <p>A downloaded still goes to that same folder. A copied still is placed on the clipboard of this computer. Copy uses a PNG.</p>
+    <p>Your options stay in <code>chrome.storage.local</code> in this profile. Those options are the delays, image format, JPEG quality, download folder name, file name date order and clock, whether the editor opens, whether a still is also downloaded, the recording countdown, format, size, microphone default, tab-sound default, and editor tool settings.</p>
+
+    <h2>What leaves this computer</h2>
+    <p>The extension makes no network request. Captures, page addresses, settings, and microphone audio are not uploaded. They are not sold, not used for advertising, and not shared with the publisher or anyone else. There is no account and no analytics.</p>
+    <p>Use of this data is limited to the capture you asked for:</p>
+    <ul>
+      <li>It is used only to show, edit, copy, or save that capture.</li>
+      <li>It is not sold or transferred to anyone, except where the law requires it.</li>
+      <li>It is not used for advertising, credit, or lending.</li>
+      <li>The publisher does not read your captures. They stay on your computer.</li>
+    </ul>
+    <p>The file <code>vendor/mp4-muxer.js</code> is mp4-muxer 5.2.2 by Vanilagy, MIT licensed, included in the package so the extension can write an MP4 on this computer. It does not contact its author. See <code>vendor/NOTICE</code>.</p>
+    <p>The share dialog, the download shelf, and the clipboard belong to Chrome or Brave. They act for you on this computer.</p>
+
+    <h2>Permissions</h2>
+    <ul>
+      <li><code>activeTab</code> reads the tab you invoked the extension on.</li>
+      <li><code>scripting</code> injects the packaged countdown, full-page, or region script into that tab for that capture. The script does not stay installed.</li>
+      <li><code>storage</code> saves your options on this device.</li>
+      <li><code>tabCapture</code> records the tab you chose.</li>
+      <li><code>downloads</code> saves a file you asked to download.</li>
+    </ul>
+    <p>There is no host permission.</p>
+
+    <h2>How long it is kept</h2>
+    <p>Stills in the extension database are deleted about two days after they were taken, the next time the extension starts. Downloaded files stay until you delete them. Options stay until you change them, remove the extension, or clear its storage.</p>
+    <p>Removing Shot Recorder deletes its options and its IndexedDB database from this profile. Files already in your downloads folder stay there.</p>
+
+    <h2>Children</h2>
+    <p>Shot Recorder is not directed at children under 13.</p>
+
+    <h2>Changes</h2>
+    <p>This page is the current policy. The date at the top changes when the policy changes.</p>
+
+    <h2>Contact</h2>
+    <p>Eugen Mihailescu<br>
+      <a href="mailto:eugen.mihailescu@protonmail.com">eugen.mihailescu@protonmail.com</a><br>
+      <a href="https://github.com/eugenmihailescu/shot-recorder/issues">github.com/eugenmihailescu/shot-recorder/issues</a>
+    </p>
+  </body>
+</html>

@@ -67,3 +67,7 @@ npm test
 ## Third-party code
 
 `vendor/mp4-muxer.js` is [mp4-muxer](https://github.com/Vanilagy/mp4-muxer) 5.2.2 by Vanilagy, MIT. See `vendor/NOTICE`.
+
+## License
+
+Shot Recorder is released under the [MIT License](LICENSE).
